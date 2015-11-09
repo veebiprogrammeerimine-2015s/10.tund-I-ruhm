@@ -34,7 +34,7 @@ class InterestManager {
 		//*************************
 		//******* OLULINE *********
 		//*************************
-		//panen eelmise k‰su kinni
+		//panen eelmise k√§su kinni
 		$stmt->close();
 	
 		$stmt = $this->connection->prepare("INSERT INTO interests (name) VALUES (?)");
@@ -47,10 +47,10 @@ class InterestManager {
 			$response->success = $success;
 			
 		}else{
-			// midagi l‰ks katki
+			// midagi l√§ks katki
 			$error = new StdClass();
 			$error->id =1;
-			$error->message = "Midagi l‰ks katki!";
+			$error->message = "Midagi l√§ks katki!";
 			$response->error = $error;
 		}
 		
@@ -73,7 +73,7 @@ class InterestManager {
         //iga rea kohta
         while($stmt->fetch()){
             
-            // value tuleb aadressireale, optioni sisu n‰idatakse
+            // value tuleb aadressireale, optioni sisu n√§idatakse
             $html .= '<option value="'.$id.'">'.$name.'</option>';
             
         }
@@ -88,7 +88,53 @@ class InterestManager {
         
     }
 
+    function addUserInterest($interest_id){
+        
+		$response = new StdClass();
 
+		//kas selline interest olemas
+		$stmt = $this->connection->prepare("SELECT id FROM user_interests WHERE interests_id = ?");
+        echo $this->connection->error;
+		$stmt->bind_param("i", $interest_id);
+        echo $stmt->error;
+		$stmt->execute();
+		
+		//kas oli 1 rida andmeid
+		if($stmt->fetch()){
+			$error = new StdClass();
+			$error->id = 0;
+			$error->message = "Kasutajal see huviala on juba olemas!";
+			$response->error = $error;
+			return $response;
+		}
+	
+		//*************************
+		//******* OLULINE *********
+		//*************************
+		//panen eelmise k√§su kinni
+		$stmt->close();
+	
+		$stmt = $this->connection->prepare("INSERT INTO user_interests (user_id, interests_id) VALUES (?,?)");
+		$stmt->bind_param("ii", $this->user_id, $interest_id);
+		
+		if($stmt->execute()){
+			// edukalt salvestas
+			$success = new StdClass();
+			$success->message = "Huviala edukalt salvestatud";
+			$response->success = $success;
+			
+		}else{
+			// midagi l√§ks katki
+			$error = new StdClass();
+			$error->id =1;
+			$error->message = "Midagi l√§ks katki!";
+			$response->error = $error;
+		}
+		
+		$stmt->close();
+		
+		return $response;
+    }
 
   
 } ?>
