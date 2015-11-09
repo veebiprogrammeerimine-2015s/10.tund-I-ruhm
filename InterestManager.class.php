@@ -66,12 +66,14 @@ class InterestManager {
         //liidan eelmisele juurde
         $html .= '<select name="dropdown_interest">';
         
-        /*$stmt = $this->connection->prepare("SELECT interests.id, interests.name, user_interests.id FROM interests, user_interests WHERE (user_interests.user_id != ? AND user_interests.interests_id != interests.id)");
-        $stmt->bind_result($id, $name, $more_id);*/
-        
-        $stmt = $this->connection->prepare("SELECT id, name FROM interests");
+        $stmt = $this->connection->prepare("SELECT interests.id, interests.name FROM interests LEFT JOIN user_interests ON interests.id = user_interests.interests_id WHERE user_interests.user_id IS NULL OR user_interests.user_id != ?");
+        $stmt->bind_param("i", $this->user_id);
         $stmt->bind_result($id, $name);
+        
+        //$stmt = $this->connection->prepare("SELECT id, name FROM interests");
+       // $stmt->bind_result($id, $name);
         $stmt->execute();
+        
         
         //iga rea kohta
         while($stmt->fetch()){
