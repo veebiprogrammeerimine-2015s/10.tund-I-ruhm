@@ -21,7 +21,7 @@
     $InterestManager = new InterestManager($mysqli, $_SESSION["id_from_db"]);
     
     if(isset($_GET["new_interest"])){
-        $InterestManager->addInterest($_GET["new_interest"]);
+        $add_interest_response = $InterestManager->addInterest($_GET["new_interest"]);
     }
 ?>
 
@@ -31,6 +31,21 @@
 </p>
 
 </h2>Lisa huviala</h2>
+
+<?php if(isset($add_interest_response->error)): ?>
+
+<p style="color:red;">
+    <?=$add_interest_response->error->message;?>
+</p>
+
+<?php elseif(isset($add_interest_response->success)): ?>
+
+<p style="color:green;">
+    <?=$add_interest_response->success->message;?>
+</p>
+
+<?php endif; ?>  
+
 <form> 
     <input name="new_interest"> <br>
     <input type="submit">

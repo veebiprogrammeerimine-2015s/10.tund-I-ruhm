@@ -17,6 +17,7 @@ class InterestManager {
 
 		//kas selline interest olemas
 		$stmt = $this->connection->prepare("SELECT id FROM interests WHERE name = ?");
+        echo $this->connection->error;
 		$stmt->bind_param("s", $name);
 		$stmt->execute();
 		
@@ -24,7 +25,7 @@ class InterestManager {
 		if($stmt->fetch()){
 			$error = new StdClass();
 			$error->id = 0;
-			$error->message = "Selline huviala juba olemas!";
+			$error->message = "Huviala '".$name."' on juba olemas!";
 			$response->error = $error;
 			return $response;
 		}
