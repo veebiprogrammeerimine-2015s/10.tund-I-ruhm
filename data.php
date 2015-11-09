@@ -74,3 +74,6 @@
     <?=$InterestManager->createDropdown();?>
     <input value="Lisa" type="submit">
 </form>
+
+<h2>Loetelu</h2>
+<?=$InterestManager->getUserInterests();?>

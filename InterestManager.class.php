@@ -127,6 +127,7 @@ class InterestManager {
 			// midagi läks katki
 			$error = new StdClass();
 			$error->id =1;
+            echo $stmt->error;
 			$error->message = "Midagi läks katki!";
 			$response->error = $error;
 		}
@@ -136,5 +137,22 @@ class InterestManager {
 		return $response;
     }
 
-  
+    function getUserInterests(){
+        
+        // saada kätte ja saata tagasi kõik kasutaja huvialad
+        // kasutaja id $this->user_id;
+        // kõik tema huvialade nimed!
+        
+        $stmt = $this->connection->prepare("SELECT interests.name FROM user_interests INNER JOIN interests ON user_interests.interests_id = interests.id WHERE user_interests.user_id = ?");
+        echo $this->connection->error;
+        $stmt->bind_param("i", $this->user_id);
+        $stmt->bind_result($name);
+        $stmt->execute();
+        
+        while($stmt->fetch()){
+            echo $name." <br>";
+        }
+        
+        $stmt->close();
+    }
 } ?>
