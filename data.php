@@ -30,7 +30,7 @@
 	<a href="?logout=1"> Logi välja</a>
 </p>
 
-</h2>Lisa huviala</h2>
+<h2>Lisa huviala</h2>
 
 <?php if(isset($add_interest_response->error)): ?>
 
@@ -50,3 +50,7 @@
     <input name="new_interest"> <br>
     <input type="submit">
 </form>
+
+<h2>Minu huvialad</h2>
+
+<?=$InterestManager->createDropdown();?>

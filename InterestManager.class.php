@@ -19,6 +19,7 @@ class InterestManager {
 		$stmt = $this->connection->prepare("SELECT id FROM interests WHERE name = ?");
         echo $this->connection->error;
 		$stmt->bind_param("s", $name);
+        echo $stmt->error;
 		$stmt->execute();
 		
 		//kas oli 1 rida andmeid
@@ -56,6 +57,34 @@ class InterestManager {
 		$stmt->close();
 		
 		return $response;
+    }
+    
+    function createDropdown(){
+        
+        $html = '';
+        
+        //liidan eelmisele juurde
+        $html .= '<select name="dropdown_interest">';
+        
+        $stmt = $this->connection->prepare("SELECT id, name FROM interests");
+        $stmt->bind_result($id, $name);
+        $stmt->execute();
+        
+        //iga rea kohta
+        while($stmt->fetch()){
+            
+            $html .= '<option>'.$name.'</option>';
+            
+        }
+        
+        $stmt->close();
+        
+        //$html .= '<option selected >Test 2</option>';
+        
+        $html .= '</select>';
+        
+        return $html;
+        
     }
 
 
