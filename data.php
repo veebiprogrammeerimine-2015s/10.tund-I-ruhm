@@ -53,4 +53,7 @@
 
 <h2>Minu huvialad</h2>
 
-<?=$InterestManager->createDropdown();?>
+<form> 
+    <?=$InterestManager->createDropdown();?>
+    <input value="Lisa" type="submit">
+</form>

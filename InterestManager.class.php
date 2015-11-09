@@ -73,7 +73,8 @@ class InterestManager {
         //iga rea kohta
         while($stmt->fetch()){
             
-            $html .= '<option>'.$name.'</option>';
+            // value tuleb aadressireale, optioni sisu näidatakse
+            $html .= '<option value="'.$id.'">'.$name.'</option>';
             
         }
         
